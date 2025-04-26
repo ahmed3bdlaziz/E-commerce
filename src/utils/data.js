@@ -23,6 +23,7 @@ export const Products = [
     rating: 4.8,
     image: P5,
     soldCount: '1.2k',
+    size: 's',
   },
   {
     id: 2,
@@ -33,6 +34,7 @@ export const Products = [
     rating: 4.7,
     image: P6,
     soldCount: '950',
+    size: 'l',
   },
   {
     id: 3,
@@ -41,6 +43,7 @@ export const Products = [
     rating: 4.6,
     image: P7,
     soldCount: '800',
+    size: 'm',
   },
   {
     id: 4,
@@ -51,5 +54,17 @@ export const Products = [
     rating: 4.9,
     image: P8,
     soldCount: '1.5k',
+    size: 'xl',
+  },
+  {
+    id: 5,
+    name: 'black pants',
+    price: 100.0,
+    oldPrice: 105.22,
+    discount: '20%',
+    rating: 4.9,
+    image: P8,
+    soldCount: '1.5k',
+    size: '2xl',
   },
 ]

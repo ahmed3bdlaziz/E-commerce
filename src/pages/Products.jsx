@@ -1,4 +1,3 @@
-import { IoHomeOutline } from 'react-icons/io5'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Filters from '../components/Filters'
 import Sorts from '../components/Sorts'

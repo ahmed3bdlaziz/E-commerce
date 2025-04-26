@@ -39,7 +39,7 @@ const Product = ({ product, TopSelling }) => {
     <Link
       to={`/products/${product.id}`}
       key={product.id}
-      className="bg-gray-100 rounded-lg p-4 group cursor-pointer"
+      className=" border-1 shadow-xl border-gray-200  rounded-lg p-4 group cursor-pointer"
     >
       <div className="aspect-w-1 aspect-h-1 mb-4 relative overflow-hidden rounded-lg">
         <img
@@ -60,7 +60,7 @@ const Product = ({ product, TopSelling }) => {
           <span className="text-gray-500 ml-1">{product.rating}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-bold text-black">${product.price}</span>
+          <span className="font-bold ">${product.price}</span>
           {product.oldPrice && (
             <>
               <span className="text-gray-500 line-through">
