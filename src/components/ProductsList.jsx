@@ -2,29 +2,30 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Product from './Product'
 import { useParams } from 'react-router-dom'
+import NoProducts from './NoProducts'
 
 const ProductsList = ({ category, TopSelling }) => {
   const { id } = useParams()
-  const { products } = useSelector((state) => state.products)
+  const { products, filteredProducts } = useSelector((state) => state.products)
 
-  // Filter products by category ID if category prop is true
-  const displayProducts = category
-    ? products.filter(
-        (product) => product.category.toLowerCase() === id.toLowerCase()
-      )
-    : products
+  // Determine which products to display
+  let displayProducts = []
+
+  if (category) {
+    // If category prop is true, filter by category ID
+    displayProducts = products.filter(
+      (product) => product.category.toLowerCase() === id.toLowerCase()
+    )
+  } else if (filteredProducts.length > 0) {
+    // If there are filtered products, use those
+    displayProducts = filteredProducts
+  } else {
+    // Otherwise use all products
+    displayProducts = products
+  }
 
   if (displayProducts.length === 0) {
-    return (
-      <div className="text-center py-10">
-        <h3 className="text-xl font-medium">
-          No products found in this category
-        </h3>
-        <p className="text-gray-500 mt-2">
-          Try another category or check back later
-        </p>
-      </div>
-    )
+    return <NoProducts />
   }
 
   return (

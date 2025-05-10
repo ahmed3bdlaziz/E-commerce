@@ -3,7 +3,7 @@ import { RiArrowDropRightLine, RiArrowDropDownLine } from 'react-icons/ri'
 import { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { filterProducts } from '../features/products/productsSlice'
+import { filterProducts, toggleFilterSection, clearFilters } from '../features/products/productsSlice'
 import {
   getUniqueCategories,
   getUniqueColors,
@@ -13,7 +13,7 @@ import { selectTranslations } from '../features/language/languageSlice'
 
 const Filters = () => {
   const dispatch = useDispatch()
-  const { products } = useSelector((state) => state.products)
+  const { products, filters } = useSelector((state) => state.products)
   const translations = useSelector(selectTranslations)
 
   // Calculate the maximum price from products
@@ -31,15 +31,11 @@ const Filters = () => {
       : 1000 // Fallback value if no products
 
   const [isChecked, setIsChecked] = useState(false)
-  const [priceRange, setPriceRange] = useState(maxPrice)
-  const [appliedPriceRange, setAppliedPriceRange] = useState(maxPrice)
-  const [isPriceOpen, setIsPriceOpen] = useState(false)
-  const [isColorOpen, setIsColorOpen] = useState(false)
-  const [selectedColor, setSelectedColor] = useState('all')
-  const [isSizeOpen, setIsSizeOpen] = useState(false)
-  const [selectedSize, setSelectedSize] = useState(null)
-  const [selectedCategory, setSelectedCategory] = useState(null)
-  const [isCategoryOpen, setIsCategoryOpen] = useState(true)
+  const [priceRange, setPriceRange] = useState(filters.price || maxPrice)
+  const [appliedPriceRange, setAppliedPriceRange] = useState(filters.price || maxPrice)
+  const [selectedColor, setSelectedColor] = useState(filters.color || 'all')
+  const [selectedSize, setSelectedSize] = useState(filters.size)
+  const [selectedCategory, setSelectedCategory] = useState(filters.category)
 
   // Get unique categories, colors, and sizes using the imported functions
   const categories = getUniqueCategories(products)
@@ -63,14 +59,14 @@ const Filters = () => {
 
   // Apply filters when filter values change
   useEffect(() => {
-    const filters = {
+    const filterValues = {
       price: appliedPriceRange,
       color: selectedColor === 'all' ? null : selectedColor, // Don't filter by color if 'all' is selected
       size: selectedSize,
       category: selectedCategory,
     }
 
-    dispatch(filterProducts(filters))
+    dispatch(filterProducts(filterValues))
   }, [
     dispatch,
     appliedPriceRange,
@@ -83,10 +79,8 @@ const Filters = () => {
   const handleCategorySelect = (category) => {
     if (selectedCategory === category) {
       setSelectedCategory(null)
-      dispatch(filterProducts({ category: null }))
     } else {
       setSelectedCategory(category)
-      dispatch(filterProducts({ category }))
     }
   }
 
@@ -124,10 +118,15 @@ const Filters = () => {
   const resetFilters = () => {
     setPriceRange(maxPrice)
     setAppliedPriceRange(maxPrice)
-    setSelectedColor('all') // Changed from null to 'all'
+    setSelectedColor('all')
     setSelectedSize(null)
     setSelectedCategory(null)
-    dispatch(filterProducts({}))
+    dispatch(clearFilters())
+  }
+
+  // Toggle filter sections using Redux
+  const handleToggleSection = (section) => {
+    dispatch(toggleFilterSection({ section }))
   }
 
   return (
@@ -166,20 +165,20 @@ const Filters = () => {
             <div className="category w-full space-y-3 p-4 mt-4">
               <div
                 className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
-                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                onClick={() => handleToggleSection('isCategoryOpen')}
               >
                 <h3 className="text-lg font-semibold">
                   {translations.category}
                 </h3>
                 <RiArrowDropDownLine
                   className={`text-3xl transition-transform duration-300 ${
-                    isCategoryOpen ? 'rotate-180' : ''
+                    filters.isCategoryOpen ? 'rotate-180' : ''
                   }`}
                 />
               </div>
               <div
                 className={`transition-all duration-300 ease-in-out w-full ${
-                  isCategoryOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                  filters.isCategoryOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
                 {categories.length > 0 ? (
@@ -201,152 +200,142 @@ const Filters = () => {
                   </div>
                 )}
               </div>
-              <hr className="my-4 border-gray-200 w-full" />
+            </div>
 
-              {/* Price range filter */}
+            {/* price filter */}
+            <div className="price w-full space-y-3 p-4">
               <div
                 className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
-                onClick={() => setIsPriceOpen(!isPriceOpen)}
+                onClick={() => handleToggleSection('isPriceOpen')}
               >
                 <h3 className="text-lg font-semibold">{translations.price}</h3>
                 <RiArrowDropDownLine
                   className={`text-3xl transition-transform duration-300 ${
-                    isPriceOpen ? 'rotate-180' : ''
+                    filters.isPriceOpen ? 'rotate-180' : ''
                   }`}
                 />
               </div>
               <div
                 className={`transition-all duration-300 ease-in-out w-full ${
-                  isPriceOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                  filters.isPriceOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
                 <div className="flex flex-col gap-4 w-full">
+                  <div className="flex justify-between items-center w-full">
+                    <span className="text-sm">$0</span>
+                    <span className="text-sm">${maxPrice}</span>
+                  </div>
                   <input
                     type="range"
-                    min={0}
+                    min="0"
                     max={maxPrice}
                     value={priceRange}
                     onChange={handlePriceChange}
-                    className="range range-primary w-full"
+                    className="range range-xs"
                   />
                   <div className="flex justify-between items-center w-full">
-                    <span className="text-sm">$0</span>
-                    <span className="text-sm font-medium">
-                      Selected: ${priceRange}
+                    <span className="text-sm">
+                      Current: ${priceRange}
                     </span>
-                    <span className="text-sm">${maxPrice}</span>
-                  </div>
-                  <button
-                    onClick={applyPriceRange}
-                    className="btn btn-sm btn-primary w-full"
-                  >
-                    Apply
-                  </button>
-                </div>
-              </div>
-              <hr className="my-4 border-gray-200 w-full" />
-
-              {/* color filter */}
-              <div className="color w-full space-y-3 ">
-                <div
-                  className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
-                  onClick={() => setIsColorOpen(!isColorOpen)}
-                >
-                  <h3 className="text-lg font-semibold">
-                    {translations.color}
-                  </h3>
-                  <RiArrowDropDownLine
-                    className={`text-3xl transition-transform duration-300 ${
-                      isColorOpen ? 'rotate-180' : ''
-                    }`}
-                  />
-                </div>
-                <div
-                  className={`transition-all duration-300 ease-in-out w-full ${
-                    isColorOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
-                  } overflow-hidden`}
-                >
-                  <div className="flex flex-wrap gap-2 mt-2 w-full">
-                    {/* Add "All Colors" option */}
-                    <div
-                      key="all"
-                      className={`w-8 h-8 rounded-full cursor-pointer flex items-center justify-center border border-gray-300 bg-gradient-to-r from-red-500 via-green-500 to-blue-500 ${
-                        selectedColor === 'all'
-                          ? 'ring-2 ring-offset-2 ring-black'
-                          : ''
-                      }`}
-                      onClick={() => setSelectedColor('all')}
-                      title="All Colors"
+                    <button
+                      onClick={applyPriceRange}
+                      className="btn btn-xs btn-outline"
                     >
-                      {selectedColor === 'all' && (
-                        <FaCheck className="text-sm text-white" />
-                      )}
-                    </div>
-                    {uniqueColors.map((color, index) => (
-                      <div
-                        key={index}
-                        className={`w-8 h-8 rounded-full cursor-pointer flex items-center justify-center ${
-                          selectedColor === color
-                            ? 'ring-2 ring-offset-2 ring-black'
-                            : ''
-                        }`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => handleColorSelect(color)}
-                        title={color}
-                      >
-                        {selectedColor === color && (
-                          <FaCheck
-                            className={`text-sm ${
-                              ['white', 'yellow', 'lime'].includes(color)
-                                ? 'text-black'
-                                : 'text-white'
-                            }`}
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <hr className="my-4 border-gray-200 w-full" />
-
-              {/* size filter */}
-              <div className="size w-full space-y-3">
-                <div
-                  className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
-                  onClick={() => setIsSizeOpen(!isSizeOpen)}
-                >
-                  <h3 className="text-lg font-semibold">{translations.size}</h3>
-                  <RiArrowDropDownLine
-                    className={`text-3xl transition-transform duration-300 ${
-                      isSizeOpen ? 'rotate-180' : ''
-                    }`}
-                  />
-                </div>
-                <div
-                  className={`transition-all duration-300 ease-in-out w-full ${
-                    isSizeOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
-                  } overflow-hidden`}
-                >
-                  <div className="grid grid-cols-3 gap-2 w-full">
-                    {uniqueSizes.map((size) => (
-                      <div
-                        key={size}
-                        className={`flex justify-center items-center p-2 border rounded-md cursor-pointer transition-all ${
-                          selectedSize === size
-                            ? 'bg-black text-white'
-                            : 'hover:bg-base-200'
-                        }`}
-                        onClick={() => handleSizeSelect(size)}
-                      >
-                        {size}
-                      </div>
-                    ))}
+                      Apply
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="w-full px-4 h-auto"></div>
+
+            {/* color filter */}
+            <div className="color w-full space-y-3 p-4">
+              <div
+                className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
+                onClick={() => handleToggleSection('isColorOpen')}
+              >
+                <h3 className="text-lg font-semibold">{translations.color}</h3>
+                <RiArrowDropDownLine
+                  className={`text-3xl transition-transform duration-300 ${
+                    filters.isColorOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </div>
+              <div
+                className={`transition-all duration-300 ease-in-out w-full ${
+                  filters.isColorOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                } overflow-hidden`}
+              >
+                <div className="flex flex-wrap gap-2 w-full">
+                  <div
+                    className={`w-8 h-8 rounded-full border-2 flex items-center justify-center cursor-pointer ${
+                      selectedColor === 'all'
+                        ? 'border-primary'
+                        : 'border-gray-300'
+                    }`}
+                    onClick={() => handleColorSelect('all')}
+                  >
+                    <span className="text-xs">All</span>
+                  </div>
+                  {uniqueColors.map((color) => (
+                    <div
+                      key={color}
+                      className={`w-8 h-8 rounded-full border-2 flex items-center justify-center cursor-pointer ${
+                        selectedColor === color
+                          ? 'border-primary'
+                          : 'border-gray-300'
+                      }`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => handleColorSelect(color)}
+                    >
+                      {selectedColor === color && (
+                        <FaCheck
+                          className={`text-xs ${
+                            color === 'white' ? 'text-black' : 'text-white'
+                          }`}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* size filter */}
+            <div className="size w-full space-y-3 p-4">
+              <div
+                className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
+                onClick={() => handleToggleSection('isSizeOpen')}
+              >
+                <h3 className="text-lg font-semibold">{translations.size}</h3>
+                <RiArrowDropDownLine
+                  className={`text-3xl transition-transform duration-300 ${
+                    filters.isSizeOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </div>
+              <div
+                className={`transition-all duration-300 ease-in-out w-full ${
+                  filters.isSizeOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                } overflow-hidden`}
+              >
+                <div className="flex flex-wrap gap-2 w-full">
+                  {uniqueSizes.map((size) => (
+                    <div
+                      key={size}
+                      className={`px-3 py-1 border rounded-md cursor-pointer ${
+                        selectedSize === size
+                          ? 'bg-primary text-white'
+                          : 'bg-base-100'
+                      }`}
+                      onClick={() => handleSizeSelect(size)}
+                    >
+                      {size}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
