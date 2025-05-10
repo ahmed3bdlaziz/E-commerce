@@ -50,7 +50,7 @@ const Footer = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">Help</h3>
+              <h3 className="font-bold uppercase  pb-3">{translations.Help}</h3>
               <a href="#xxx" className="hover:underline">
                 {translations.CustomerSupport}
               </a>
