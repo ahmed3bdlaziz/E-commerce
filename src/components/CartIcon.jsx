@@ -15,11 +15,11 @@ const CartIcon = () => {
           </div>
         )}
       </Link>
-      {numItemsInCart > 0 && (
+      {/* {numItemsInCart > 0 && (
         <div className="absolute top-6 -right-2 bg-base-100 text-neutral border border-primary rounded-md px-2 py-1 text-xs whitespace-nowrap shadow-md">
           ${cartTotal.toFixed(2)}
         </div>
-      )}
+      )} */}
     </div>
   )
 }

@@ -135,8 +135,8 @@ const getTranslations = (language) => {
     Showing: 'Showing',
     results: 'results',
     // single product
-    SelectColor: 'SelectColors',
-    SelectSize: 'SelectColors',
+    SelectColor: 'Select Colors',
+    SelectSize: 'Select Colors',
     addToCart: 'Add to Cart',
     noProducts: 'No products available',
     newArrival: 'New Arrival',

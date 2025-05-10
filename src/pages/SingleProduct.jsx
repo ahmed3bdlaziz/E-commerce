@@ -67,7 +67,9 @@ const SingleProduct = () => {
           />
         </div>
         <div className="flex flex-col gap-6">
-          <h1 className="text-4xl font-bold uppercase">{product.name}</h1>
+          <h1 className=" text-md md:text-2xl font-bold uppercase">
+            {product.name}
+          </h1>
 
           <div className="text-yellow-400 text-xl">
             {renderStars(product.rate)}
@@ -75,14 +77,14 @@ const SingleProduct = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-3xl font-bold">
+            <span className="text-md md:text-2xl font-bold">
               {formatPrice(
                 product.price_after_disc
                   ? product.price_after_disc
                   : product.price
               )}
             </span>
-            <span className="text-xl text-gray-400 line-through">
+            <span className="text-md md:text-2xl text-gray-400 line-through">
               {product.price_after_disc ? formatPrice(product.price) : ''}
             </span>
             {product.price_after_disc && (
@@ -99,7 +101,7 @@ const SingleProduct = () => {
           <p className="text-gray-600">{description}</p>
 
           <div className="flex flex-col gap-4">
-            <h3 className="text-lg">{translations.SelectColor}</h3>
+            <h3 className="text-md md:text-2xl">{translations.SelectColor}</h3>
             <div className="flex gap-3">
               <p
                 className="w-8 h-8 rounded-full"
@@ -109,7 +111,7 @@ const SingleProduct = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h3 className="text-lg">{translations.SelectSize}</h3>
+            <h3 className="text-md md:text-2xl">{translations.SelectSize}</h3>
             <div className="flex gap-3">
               <span className="px-4 py-2 rounded-full">{product.size}</span>
             </div>

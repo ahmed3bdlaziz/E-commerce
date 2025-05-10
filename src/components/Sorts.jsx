@@ -15,13 +15,13 @@ const Sorts = () => {
   }
 
   return (
-    <div className="flex items-center justify-between ">
-      <h4 className="text-lg w-full">
+    <div className="flex items-center justify-between mb-3 ">
+      <h4 className="text-sm md:text-lg w-full mx-2 md:mx-0  ">
         {translations.Showing} 1-{Math.min(10, count)} of ({count}
         {translations.results})
       </h4>
       <div className="flex items-center gap-2 w-full justify-end">
-        <label>Sort by:</label>
+        <label>Sort:</label>
         <select
           className="select select-bordered w-full max-w-[200px] border-0 border-b-1"
           onChange={handleSort}

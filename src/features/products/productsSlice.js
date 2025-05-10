@@ -190,6 +190,10 @@ const sortProductsHelper = (products, sortType) => {
   }
 }
 
-export const { filterProducts, sortProducts, clearFilters, toggleFilterSection } =
-  productsSlice.actions
+export const {
+  filterProducts,
+  sortProducts,
+  clearFilters,
+  toggleFilterSection,
+} = productsSlice.actions
 export default productsSlice.reducer

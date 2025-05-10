@@ -196,8 +196,11 @@ const Checkout = () => {
       // Clear the cart in Redux store
       dispatch(clearCart())
 
-      // Navigate to orders page
-      navigate('/products')
+      // Set flag for successful checkout
+      sessionStorage.setItem('checkout_completed', 'true')
+
+      // Navigate to thank you page
+      navigate('/thank-you')
     }
   }
 

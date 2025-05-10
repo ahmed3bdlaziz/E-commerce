@@ -139,13 +139,13 @@ const cartSlice = createSlice({
 
       if (item) {
         item.amount = amount
-        toast.success(`${item.name} quantity updated!`, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        })
+        // toast.success(`${item.name} quantity updated!`, {
+        //   autoClose: 3000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        // })
       }
 
       // Update localStorage

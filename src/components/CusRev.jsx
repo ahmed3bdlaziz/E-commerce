@@ -58,11 +58,11 @@ const CusRev = () => {
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">OUR HAPPY CUSTOMERS</h2>
           <div className="flex gap-2">
-            <button className="review-prev bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition  ">
-              <MdKeyboardArrowLeft className="text-3xl" />
-            </button>
             <button className="review-next bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition">
               <MdKeyboardArrowRight className="text-3xl" />
+            </button>
+            <button className="review-prev bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition  ">
+              <MdKeyboardArrowLeft className="text-3xl" />
             </button>
           </div>
         </div>

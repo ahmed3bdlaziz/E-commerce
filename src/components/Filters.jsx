@@ -3,7 +3,11 @@ import { RiArrowDropRightLine, RiArrowDropDownLine } from 'react-icons/ri'
 import { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { filterProducts, toggleFilterSection, clearFilters } from '../features/products/productsSlice'
+import {
+  filterProducts,
+  toggleFilterSection,
+  clearFilters,
+} from '../features/products/productsSlice'
 import {
   getUniqueCategories,
   getUniqueColors,
@@ -32,7 +36,9 @@ const Filters = () => {
 
   const [isChecked, setIsChecked] = useState(false)
   const [priceRange, setPriceRange] = useState(filters.price || maxPrice)
-  const [appliedPriceRange, setAppliedPriceRange] = useState(filters.price || maxPrice)
+  const [appliedPriceRange, setAppliedPriceRange] = useState(
+    filters.price || maxPrice
+  )
   const [selectedColor, setSelectedColor] = useState(filters.color || 'all')
   const [selectedSize, setSelectedSize] = useState(filters.size)
   const [selectedCategory, setSelectedCategory] = useState(filters.category)
@@ -140,7 +146,7 @@ const Filters = () => {
         />
         <div className="collapse-title text-lg p-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-2xl capitalize font-semibold">
+            <h3 className="text-lg md:text-2xl capitalize font-semibold">
               {translations.filter}
             </h3>
             <GiSettingsKnobs
@@ -156,7 +162,7 @@ const Filters = () => {
             {/* Reset filters button */}
             <button
               onClick={resetFilters}
-              className="btn btn-sm btn-outline my-2 w-full max-w-full"
+              className="btn btn-sm btn-outline my-4 p-7 w-full max-w-full text-lg md:text-xl"
             >
               {translations.ResetFilters}
             </button>
@@ -167,7 +173,7 @@ const Filters = () => {
                 className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
                 onClick={() => handleToggleSection('isCategoryOpen')}
               >
-                <h3 className="text-lg font-semibold">
+                <h3 className="font-semibold text-lg md:text-2xl">
                   {translations.category}
                 </h3>
                 <RiArrowDropDownLine
@@ -178,7 +184,9 @@ const Filters = () => {
               </div>
               <div
                 className={`transition-all duration-300 ease-in-out w-full ${
-                  filters.isCategoryOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                  filters.isCategoryOpen
+                    ? 'max-h-60 opacity-100'
+                    : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
                 {categories.length > 0 ? (
@@ -190,12 +198,14 @@ const Filters = () => {
                       }`}
                       onClick={() => handleCategorySelect(category)}
                     >
-                      <h3 className="capitalize">{category}</h3>
+                      <h3 className="capitalize text-sm md:text-2xl">
+                        {translations[category] || category}
+                      </h3>
                       <RiArrowDropRightLine className="text-3xl" />
                     </div>
                   ))
                 ) : (
-                  <div className="text-sm text-gray-500 py-2 w-full">
+                  <div className="text-lg md:text-2xl text-gray-500 py-2 w-full">
                     No categories available
                   </div>
                 )}
@@ -208,7 +218,9 @@ const Filters = () => {
                 className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
                 onClick={() => handleToggleSection('isPriceOpen')}
               >
-                <h3 className="text-lg font-semibold">{translations.price}</h3>
+                <h3 className="text-lg md:text-2xl font-semibold">
+                  {translations.price}
+                </h3>
                 <RiArrowDropDownLine
                   className={`text-3xl transition-transform duration-300 ${
                     filters.isPriceOpen ? 'rotate-180' : ''
@@ -217,7 +229,9 @@ const Filters = () => {
               </div>
               <div
                 className={`transition-all duration-300 ease-in-out w-full ${
-                  filters.isPriceOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                  filters.isPriceOpen
+                    ? 'max-h-60 opacity-100'
+                    : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
                 <div className="flex flex-col gap-4 w-full">
@@ -234,9 +248,7 @@ const Filters = () => {
                     className="range range-xs"
                   />
                   <div className="flex justify-between items-center w-full">
-                    <span className="text-sm">
-                      Current: ${priceRange}
-                    </span>
+                    <span className="text-sm">Current: ${priceRange}</span>
                     <button
                       onClick={applyPriceRange}
                       className="btn btn-xs btn-outline"
@@ -254,7 +266,9 @@ const Filters = () => {
                 className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
                 onClick={() => handleToggleSection('isColorOpen')}
               >
-                <h3 className="text-lg font-semibold">{translations.color}</h3>
+                <h3 className="text-lg md:text-2xl font-semibold">
+                  {translations.color}
+                </h3>
                 <RiArrowDropDownLine
                   className={`text-3xl transition-transform duration-300 ${
                     filters.isColorOpen ? 'rotate-180' : ''
@@ -263,7 +277,9 @@ const Filters = () => {
               </div>
               <div
                 className={`transition-all duration-300 ease-in-out w-full ${
-                  filters.isColorOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                  filters.isColorOpen
+                    ? 'max-h-60 opacity-100'
+                    : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
                 <div className="flex flex-wrap gap-2 w-full">
@@ -307,7 +323,9 @@ const Filters = () => {
                 className="flex justify-between items-center cursor-pointer hover:bg-base-200 rounded-lg transition-all p-2 w-full"
                 onClick={() => handleToggleSection('isSizeOpen')}
               >
-                <h3 className="text-lg font-semibold">{translations.size}</h3>
+                <h3 className="text-lg md:text-2xl font-semibold">
+                  {translations.size}
+                </h3>
                 <RiArrowDropDownLine
                   className={`text-3xl transition-transform duration-300 ${
                     filters.isSizeOpen ? 'rotate-180' : ''
@@ -316,14 +334,16 @@ const Filters = () => {
               </div>
               <div
                 className={`transition-all duration-300 ease-in-out w-full ${
-                  filters.isSizeOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                  filters.isSizeOpen
+                    ? 'max-h-60 opacity-100'
+                    : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
                 <div className="flex flex-wrap gap-2 w-full">
                   {uniqueSizes.map((size) => (
                     <div
                       key={size}
-                      className={`px-3 py-1 border rounded-md cursor-pointer ${
+                      className={`px-3 text-md md:text-xl py-1 border rounded-md cursor-pointer ${
                         selectedSize === size
                           ? 'bg-primary text-white'
                           : 'bg-base-100'

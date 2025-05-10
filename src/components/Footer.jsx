@@ -11,7 +11,7 @@ const Footer = () => {
         {/* Logo and Social Links Section */}
         <div className="flex flex-col gap-4 w-full lg:w-[35%]">
           <div className="flex items-center">
-            <h2 className="text-4xl md:text-5xl font-bold uppercase">
+            <h2 className="text-md md:text-4xl  font-bold uppercase">
               Shopify
             </h2>
           </div>
@@ -32,69 +32,73 @@ const Footer = () => {
         <div className="w-full lg:w-[65%]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">
+              <h3 className="font-bold uppercase pb-3 text-md md:text-3xl">
                 {translations.company}
               </h3>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.about}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.Features}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.Works}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.Career}
               </a>
             </div>
 
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">{translations.Help}</h3>
-              <a href="#xxx" className="hover:underline">
+              <h3 className="font-bold uppercase  pb-3 text-md md:text-3xl">
+                {translations.Help}
+              </h3>
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.CustomerSupport}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.DeliveryDetails}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.TermsConditions}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.PrivacyPolicy}
               </a>
             </div>
 
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">{translations.FAQ}</h3>
-              <a href="#xxx" className="hover:underline">
+              <h3 className="font-bold uppercase  pb-3 text-md md:text-3xl">
+                {translations.FAQ}
+              </h3>
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.account}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.ManageDeliveries}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.orders}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.Payments}
               </a>
             </div>
 
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">
-                {translations.resources}
+              <h3 className="font-bold uppercase  pb-3 text-md md:text-3xl">
+                {translations.Resources}
               </h3>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.FreeEBooks}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.DevelopmentTutorial}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.HowToBlog}
               </a>
-              <a href="#xxx" className="hover:underline">
+              <a href="#xxx" className="hover:underline text-md md:text-xl">
                 {translations.YoutubePlaylist}
               </a>
             </div>

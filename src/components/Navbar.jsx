@@ -6,22 +6,12 @@ import CartIcon from './CartIcon'
 import { IoIosLogOut } from 'react-icons/io'
 import LanguageSwitcher from './LanguageSwitcher'
 import ThemeSwitcher from './ThemeSwitcher'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../features/user/userSlice'
 
 const Navbar = () => {
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.user)
-
-  // Function to get user from localStorage
-  const getUserFromStorage = () => {
-    const userFromStorage = localStorage.getItem('user')
-    if (userFromStorage) {
-      return JSON.parse(userFromStorage)
-    }
-    return null
-  }
 
   // Handle logout
   const handleLogout = () => {

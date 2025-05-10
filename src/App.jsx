@@ -15,6 +15,7 @@ import {
   Orders,
   Products,
   SingleProduct,
+  ThankYou,
 } from './pages'
 import { ErrorElement } from './components'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -44,6 +45,18 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'thank-you',
+        element: (
+          // <ProtectedRoute>
+          <ThankYou />
+          // </ProtectedRoute>
+        ),
+      },
+      {
         path: 'checkout',
         element: (
           <ProtectedRoute>
@@ -51,16 +64,13 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      // Add this new route
       {
-        path: 'about',
-        element: <About />,
-      },
-      {
-        path: 'orders',
+        path: '/orders',
         element: (
-          <AdminRoute>
+          <ProtectedRoute>
             <Orders />
-          </AdminRoute>
+          </ProtectedRoute>
         ),
       },
       {
