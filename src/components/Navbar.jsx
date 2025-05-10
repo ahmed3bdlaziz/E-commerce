@@ -1,31 +1,32 @@
 import { FaRegUserCircle } from 'react-icons/fa'
 import NavLinks from './NavLinks'
-import { FaOpencart } from 'react-icons/fa6'
+import { FaBarsStaggered, FaOpencart } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
-import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
-import { useEffect, useState } from 'react'
+import CartIcon from './CartIcon'
+import { IoIosLogOut } from 'react-icons/io'
+import LanguageSwitcher from './LanguageSwitcher'
+import ThemeSwitcher from './ThemeSwitcher'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../features/user/userSlice'
 
 const Navbar = () => {
-  const themes = {
-    dark: 'dark',
-    winter: 'winter',
+  const dispatch = useDispatch()
+  const { currentUser } = useSelector((state) => state.user)
+
+  // Function to get user from localStorage
+  const getUserFromStorage = () => {
+    const userFromStorage = localStorage.getItem('user')
+    if (userFromStorage) {
+      return JSON.parse(userFromStorage)
+    }
+    return null
   }
 
-  const getThemeFromLocalStorage = () => {
-    const theme = localStorage.getItem('theme') || themes.winter
-    return theme
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logout())
   }
-
-  const [theme, setTheme] = useState(getThemeFromLocalStorage())
-  const handleTheme = () => {
-    const newTheme = theme === themes.dark ? themes.winter : themes.dark
-    localStorage.setItem('theme', newTheme)
-
-    setTheme(newTheme)
-  }
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [theme])
 
   return (
     <>
@@ -38,20 +39,7 @@ const Navbar = () => {
                 role="button"
                 className="btn btn-ghost lg:hidden"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h8m-8 6h16"
-                  />
-                </svg>
+                <FaBarsStaggered />
               </div>
               <ul
                 tabIndex={0}
@@ -68,13 +56,19 @@ const Navbar = () => {
                   </div>
                 </li>
                 <NavLinks />
-                <div className="btn-container w-full flex flex-row justify-evenly gap-2">
+                <div className="btn-container w-full flex flex-row justify-evenly items-center gap-2">
                   <Link to="/cart">
                     <FaOpencart className="text-lg" />
                   </Link>
-                  <Link to="/login">
-                    <FaRegUserCircle className="text-lg" />
-                  </Link>
+                  {currentUser ? (
+                    <button onClick={handleLogout}>
+                      <IoIosLogOut className="text-lg" />
+                    </button>
+                  ) : (
+                    <Link to="/login">
+                      <FaRegUserCircle className="text-lg" />
+                    </Link>
+                  )}
                 </div>
               </ul>
             </div>
@@ -91,25 +85,28 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="navbar-end flex gap-3">
-            <button
-              className="cursor-pointer bg-transparent border-0 outline-0 text-2xl"
-              onClick={handleTheme}
-            >
-              {theme === themes.winter ? <BsFillSunFill /> : <BsFillMoonFill />}
-            </button>
+            <ThemeSwitcher />
             {/* Hide search on small screens, show on medium and up */}
+            <LanguageSwitcher className="hidden md:block" />
             <input
               type="text"
               placeholder="Search"
               className="input input-bordered w-24 md:w-auto hidden md:block"
             />
-            <div className="btn-container hidden md:flex gap-2">
-              <Link to="/cart">
-                <FaOpencart className="text-2xl" />
-              </Link>
-              <Link to="/login">
-                <FaRegUserCircle className="text-2xl" />
-              </Link>
+            <div className="btn-container hidden md:flex gap-2 justify-center items-center">
+              <CartIcon />
+              {currentUser ? (
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-ghost btn-circle"
+                >
+                  <IoIosLogOut className="text-3xl" />
+                </button>
+              ) : (
+                <Link to="/login">
+                  <FaRegUserCircle className="text-2xl" />
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -1,7 +1,10 @@
 import { FaFacebook, FaXTwitter, FaYoutube } from 'react-icons/fa6'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { selectTranslations } from '../features/language/languageSlice'
 
 const Footer = () => {
+  const translations = useSelector(selectTranslations)
   return (
     <footer className="w-full border-t-2  px-4 md:px-8 lg:px-14 py-8 md:py-14 relative">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-0 ">
@@ -29,66 +32,70 @@ const Footer = () => {
         <div className="w-full lg:w-[65%]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">company</h3>
+              <h3 className="font-bold uppercase  pb-3">
+                {translations.company}
+              </h3>
               <a href="#xxx" className="hover:underline">
-                About
+                {translations.about}
               </a>
               <a href="#xxx" className="hover:underline">
-                Features
+                {translations.Features}
               </a>
               <a href="#xxx" className="hover:underline">
-                Works
+                {translations.Works}
               </a>
               <a href="#xxx" className="hover:underline">
-                Career
+                {translations.Career}
               </a>
             </div>
 
             <div className="flex flex-col gap-2">
               <h3 className="font-bold uppercase  pb-3">Help</h3>
               <a href="#xxx" className="hover:underline">
-                Customer Support
+                {translations.CustomerSupport}
               </a>
               <a href="#xxx" className="hover:underline">
-                Delivery Details
+                {translations.DeliveryDetails}
               </a>
               <a href="#xxx" className="hover:underline">
-                Terms & Conditions
+                {translations.TermsConditions}
               </a>
               <a href="#xxx" className="hover:underline">
-                Privacy Policy
-              </a>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">FAQ</h3>
-              <a href="#xxx" className="hover:underline">
-                Account
-              </a>
-              <a href="#xxx" className="hover:underline">
-                Manage Deliveries
-              </a>
-              <a href="#xxx" className="hover:underline">
-                Orders
-              </a>
-              <a href="#xxx" className="hover:underline">
-                Payments
+                {translations.PrivacyPolicy}
               </a>
             </div>
 
             <div className="flex flex-col gap-2">
-              <h3 className="font-bold uppercase  pb-3">Resources</h3>
+              <h3 className="font-bold uppercase  pb-3">{translations.FAQ}</h3>
               <a href="#xxx" className="hover:underline">
-                Free eBooks
+                {translations.account}
               </a>
               <a href="#xxx" className="hover:underline">
-                Development Tutorial
+                {translations.ManageDeliveries}
               </a>
               <a href="#xxx" className="hover:underline">
-                How to - Blog
+                {translations.orders}
               </a>
               <a href="#xxx" className="hover:underline">
-                Youtube Playlist
+                {translations.Payments}
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <h3 className="font-bold uppercase  pb-3">
+                {translations.resources}
+              </h3>
+              <a href="#xxx" className="hover:underline">
+                {translations.FreeEBooks}
+              </a>
+              <a href="#xxx" className="hover:underline">
+                {translations.DevelopmentTutorial}
+              </a>
+              <a href="#xxx" className="hover:underline">
+                {translations.HowToBlog}
+              </a>
+              <a href="#xxx" className="hover:underline">
+                {translations.YoutubePlaylist}
               </a>
             </div>
           </div>
@@ -99,7 +106,7 @@ const Footer = () => {
       <div className="mt-12 mb-8">
         <div className="max-w-xl mx-auto px-4">
           <h3 className="text-2xl font-bold text-center mb-4">
-            STAY UP TO DATE ABOUT OUR LATEST OFFERS
+            {translations.newsletterTitle}
           </h3>
           <form
             className="flex flex-col sm:flex-row gap-4"
@@ -109,14 +116,14 @@ const Footer = () => {
           >
             <input
               type="email"
-              placeholder="Enter your email address"
+              placeholder={translations.placeholder}
               className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-black"
             />
             <button
               type="submit"
               className="px-6 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition-colors"
             >
-              Subscribe to Newsletter
+              {translations.subscribe}
             </button>
           </form>
         </div>
@@ -124,7 +131,10 @@ const Footer = () => {
 
       {/* Copyright Section */}
       <div className="border-t border-gray-200 mt-8 pt-8 text-center ">
-        <p>© {new Date().getFullYear()} SHOPIFY.CO All rights reserved.</p>
+        <p>
+          SHOPIFY.CO {translations.Copyright} {translations.AllRightsReserved}-
+          {new Date().getFullYear()}.
+        </p>
       </div>
     </footer>
   )

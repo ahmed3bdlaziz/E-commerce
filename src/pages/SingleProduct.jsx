@@ -1,53 +1,151 @@
+import { useState, useEffect } from 'react'
+import { Breadcrumbs, Loading } from '../components'
+import {
+  calculateDiscountPercentage,
+  formatPrice,
+  renderStars,
+} from '../utils/data'
 import { useParams } from 'react-router-dom'
-import { Products } from '../utils/data'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSingleProduct } from '../features/products/productsSlice'
+import { addToCart } from '../features/cart/cartSlice'
 
 const SingleProduct = () => {
+  const translations = useSelector((state) => state.language.translations)
+  const domain = `http://localhost:1337`
   const { id } = useParams()
+  const dispatch = useDispatch()
+  const { singleProduct: product, isLoading } = useSelector(
+    (state) => state.products
+  )
+  const [quantity, setQuantity] = useState(1)
 
-  const product = Products.find((product) => product.id === parseInt(id))
+  useEffect(() => {
+    dispatch(getSingleProduct(id))
+  }, [dispatch, id])
 
-  if (!product) {
+  // Add to cart handler
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: product.documentId || product.id,
+        color: product.colors,
+        size: product.size,
+        amount: quantity,
+        product: {
+          id: product.documentId || product.id,
+          name: product.name,
+          price: product.price_after_disc || product.price,
+          image: `${domain}${product.image.url}`,
+        },
+      })
+    )
+  }
+
+  if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-4">Product not found</h2>
+      <div className="max-w-7xl flex items-center justify-center mx-auto px-4 py-8">
+        <Loading />
       </div>
     )
   }
 
+  if (!product) {
+    return <div>Product not found</div>
+  }
+
+  const description = product?.description?.[0]?.children?.[0]?.text || ''
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg">
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <Breadcrumbs singleProduct={true} title={product.name} />
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8">
+        <div className="flex items-center justify-center">
           <img
-            src={product.image}
+            src={`${domain}${product.image.url}`}
             alt={product.name}
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-auto object-contain max-h-[500px]"
           />
         </div>
-        <div className="space-y-4">
-          <h2 className="text-3xl font-bold">{product.name}</h2>
-          <div className="text-yellow-400 text-lg">
-            {'★'.repeat(Math.floor(product.rating)) +
-              '☆'.repeat(5 - Math.floor(product.rating))}
-            <span className="text-gray-500 ml-2">{product.rating}</span>
+        <div className="flex flex-col gap-6">
+          <h1 className="text-4xl font-bold uppercase">{product.name}</h1>
+
+          <div className="text-yellow-400 text-xl">
+            {renderStars(product.rate)}
+            <span className="text-gray-500 ml-1">({product.rate})</span>
           </div>
-          <div className="flex items-center gap-4 text-xl">
-            <span className="font-bold text-black">${product.price}</span>
-            {product.oldPrice && (
-              <>
-                <span className="text-gray-500 line-through">
-                  ${product.oldPrice}
-                </span>
-                <span className="text-red-500">-{product.discount}</span>
-              </>
+
+          <div className="flex items-center gap-4">
+            <span className="text-3xl font-bold">
+              {formatPrice(
+                product.price_after_disc
+                  ? product.price_after_disc
+                  : product.price
+              )}
+            </span>
+            <span className="text-xl text-gray-400 line-through">
+              {product.price_after_disc ? formatPrice(product.price) : ''}
+            </span>
+            {product.price_after_disc && (
+              <span className="bg-red-100 text-red-500 px-2 py-1 rounded">
+                {calculateDiscountPercentage(
+                  product.price,
+                  product.price_after_disc
+                )}
+                %
+              </span>
             )}
           </div>
-          {product.soldCount && (
-            <p className="text-green-600">{product.soldCount} sold</p>
-          )}
-          <button className="btn btn-neutral w-full md:w-auto px-8 rounded-3xl">
-            Add to Cart
-          </button>
+
+          <p className="text-gray-600">{description}</p>
+
+          <div className="flex flex-col gap-4">
+            <h3 className="text-lg">{translations.SelectColor}</h3>
+            <div className="flex gap-3">
+              <p
+                className="w-8 h-8 rounded-full"
+                style={{ backgroundColor: `${product.colors}` }}
+              ></p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h3 className="text-lg">{translations.SelectSize}</h3>
+            <div className="flex gap-3">
+              <span className="px-4 py-2 rounded-full">{product.size}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6">
+            {product.stock > 0 ? (
+              <div className="flex items-center rounded-full">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-4 py-2 text-xl font-bold hover:text-gray-600 cursor-pointer"
+                >
+                  −
+                </button>
+                <span className="w-12 text-center">{quantity}</span>
+                <button
+                  onClick={() =>
+                    setQuantity(Math.min(product.stock, quantity + 1))
+                  }
+                  className="px-4 py-2 text-xl font-bold hover:text-gray-600 cursor-pointer"
+                >
+                  +
+                </button>
+              </div>
+            ) : (
+              <div className="text-red-500">Out of Stock</div>
+            )}
+            {product.stock > 0 && (
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 text-center bg-black text-white py-3 cursor-pointer rounded-full hover:bg-gray-800 transition-colors"
+              >
+                {translations.addToCart}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

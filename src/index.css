@@ -1,9 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: winter --default, dark --prefersdark;
 }
 @import "swiper/css";
 @import "swiper/css/navigation";
+
+/* Set Roboto as default font */
+:root {
+  font-family: "Roboto", sans-serif;
+}
 
 .heroImg {
   background-image: url("./assets/Hero/Rectangle 2.png");
@@ -14,4 +20,24 @@
     background-image: none;
     background: white;
   }
+}
+
+/* Add these rules to your CSS file */
+
+/* Make hero section always LTR regardless of page direction */
+.hero-section {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Override any RTL styles for hero section */
+.rtl-layout .hero-section {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Ensure all children of hero section maintain LTR */
+.hero-section * {
+  direction: ltr !important;
+  text-align: left !important;
 }

@@ -1,25 +1,25 @@
-import React from 'react'
-import { IoIosSearch } from 'react-icons/io'
-import { FaCartShopping } from 'react-icons/fa6'
-import { CgProfile } from 'react-icons/cg'
+import React, { useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import {
   About,
-  Brands,
   Cart,
   Category,
   Checkout,
   Error,
   HomeLayout,
   Landing,
-  Login,
-  NewArrival,
+  LoginPage,
   Orders,
   Products,
-  Register,
   SingleProduct,
 } from './pages'
-
+import { ErrorElement } from './components'
+import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
+import LoadingScreen from './components/LoadingScreen'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+        errorElement: <ErrorElement />,
       },
       {
         path: 'products',
@@ -44,7 +45,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'checkout',
-        element: <Checkout />,
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'about',
@@ -52,17 +57,12 @@ const router = createBrowserRouter([
       },
       {
         path: 'orders',
-        element: <Orders />,
+        element: (
+          <AdminRoute>
+            <Orders />
+          </AdminRoute>
+        ),
       },
-      {
-        path: 'brands',
-        element: <Brands />,
-      },
-      {
-        path: 'newarrival',
-        element: <NewArrival />,
-      },
-
       {
         path: 'category/:id',
         element: <Category />,
@@ -71,16 +71,28 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <LoginPage />,
     errorElement: <Error />,
   },
-  {
-    path: '/register',
-    element: <Register />,
-    errorElement: <Error />,
-  },
+  // {
+  //   path: '/register',
+  //   element: <Register />,
+  //   errorElement: <Error />,
+  // },
 ])
 
 export default function App() {
-  return <RouterProvider router={router}></RouterProvider>
+  const [isLoading, setIsLoading] = useState(true)
+
+  const handleLoadingFinished = () => {
+    setIsLoading(false)
+  }
+
+  return (
+    <>
+      {isLoading && <LoadingScreen onFinished={handleLoadingFinished} />}
+      <ToastContainer position="bottom-right" />
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  )
 }

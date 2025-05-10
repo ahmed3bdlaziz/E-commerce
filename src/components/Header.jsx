@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoClose } from 'react-icons/io5'
+import { useSelector } from 'react-redux'
+import { selectTranslations } from '../features/language/languageSlice'
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true)
+  const translations = useSelector(selectTranslations)
 
   return (
     <div
@@ -12,8 +15,8 @@ const Header = () => {
       }`}
     >
       <span>
-        sign in and get 20% off to your first order.
-        <Link to="/register"> Sign Up Now</Link>
+        {/* {translations.signIn} */}
+        <Link to="/register"> {translations.signUpNow}</Link>
       </span>
       <button
         onClick={() => setIsVisible(false)}

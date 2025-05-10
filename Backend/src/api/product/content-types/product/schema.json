@@ -1,0 +1,109 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Products",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "price_after_disc": {
+      "type": "decimal"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "new_arrival": {
+      "type": "boolean",
+      "default": false
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "review": {
+      "type": "decimal",
+      "default": 1
+    },
+    "rate": {
+      "type": "decimal",
+      "max": 5
+    },
+    "sold_count": {
+      "type": "integer"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": [
+        "XX-Small",
+        "Small",
+        "Medium",
+        "Large",
+        "X-Large",
+        "XX-Large",
+        "XXX-Large",
+        "XXXX-Large"
+      ]
+    },
+    "colors": {
+      "type": "enumeration",
+      "enum": [
+        "black",
+        "red",
+        "blue",
+        "navy",
+        "orange",
+        "gray",
+        "puprle",
+        "brown"
+      ],
+      "enumName": "colors"
+    },
+    "stock": {
+      "type": "integer"
+    },
+    "thumbs": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "t-shirts",
+        "shorts",
+        "shirts",
+        "hoodies",
+        "t-jeans",
+        "pants"
+      ]
+    }
+  }
+}
