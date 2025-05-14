@@ -2,14 +2,17 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import { IoIosArrowDropleft, IoIosArrowDropright } from 'react-icons/io'
 import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
   MdOutlineVerified,
 } from 'react-icons/md'
+import { useSelector } from 'react-redux'
+import { selectDirection } from '../features/language/languageSlice'
 
 const CusRev = () => {
+  const direction = useSelector(selectDirection)
+  console.log(direction)
   const reviews = [
     {
       id: 1,
@@ -58,12 +61,26 @@ const CusRev = () => {
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">OUR HAPPY CUSTOMERS</h2>
           <div className="flex gap-2">
-            <button className="review-next bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition">
-              <MdKeyboardArrowRight className="text-3xl" />
-            </button>
-            <button className="review-prev bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition  ">
-              <MdKeyboardArrowLeft className="text-3xl" />
-            </button>
+            {direction === 'rtl' ? (
+              <>
+                <button className="review-next bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition">
+                  <MdKeyboardArrowRight className="text-3xl" />
+                </button>
+                <button className="review-prev bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition  ">
+                  <MdKeyboardArrowLeft className="text-3xl" />
+                </button>
+              </>
+            ) : (
+              <>
+                {' '}
+                <button className="review-prev bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition  ">
+                  <MdKeyboardArrowLeft className="text-3xl" />
+                </button>
+                <button className="review-next bg-gray-100 p-2 cursor-pointer  rounded-full hover:bg-gray-200 transition">
+                  <MdKeyboardArrowRight className="text-3xl" />
+                </button>
+              </>
+            )}
           </div>
         </div>
 

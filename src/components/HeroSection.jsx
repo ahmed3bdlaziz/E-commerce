@@ -34,6 +34,7 @@ const HeroSection = () => {
                 <CountUp
                   start={0}
                   end={200}
+                  delay={3.5}
                   duration={3}
                   suffix="+"
                   className="text-3xl sm:text-4xl font-bold flex flex-col"
@@ -44,6 +45,7 @@ const HeroSection = () => {
                 <CountUp
                   start={0}
                   end={2000}
+                  delay={3.5}
                   duration={2.75}
                   suffix="+"
                   className="text-3xl sm:text-4xl font-bold flex flex-col"
@@ -55,6 +57,7 @@ const HeroSection = () => {
                   start={0}
                   end={30000}
                   duration={2.1}
+                  delay={3.5}
                   suffix="+"
                   className="text-3xl sm:text-4xl font-bold flex flex-col"
                 />
