@@ -21,7 +21,6 @@ import { ErrorElement } from './components'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminRoute from './components/AdminRoute'
 import LoadingScreen from './components/LoadingScreen'
-import PrivateRoute from './components/PrivateRoute'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -52,9 +51,9 @@ const router = createBrowserRouter([
       {
         path: 'thank-you',
         element: (
-          <ProtectedRoute>
-            <ThankYou />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <ThankYou />
+          // </ProtectedRoute>
         ),
       },
       {
@@ -85,31 +84,11 @@ const router = createBrowserRouter([
     element: <LoginPage />,
     errorElement: <Error />,
   },
-  // admin routes
-  {
-    path: '/admin/login',
-    element: (
-      <PrivateRoute>
-        <AdminProductsList />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: '/admin/products/new',
-    element: (
-      <PrivateRoute>
-        <ProductForm />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: '/admin/products/edit/:id',
-    element: (
-      <PrivateRoute>
-        <ProductForm />
-      </PrivateRoute>
-    ),
-  },
+  // {
+  //   path: '/register',
+  //   element: <Register />,
+  //   errorElement: <Error />,
+  // },
 ])
 
 export default function App() {
